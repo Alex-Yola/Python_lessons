@@ -121,3 +121,29 @@ def merge(left, right, compare):
 
 A = [4,3,5,2,1,6]
 print("Рекурентная сортировка слиянием:", A, merge_sort(A))
+
+
+# Перестановки элементов массива
+def permutations_generation(A):
+    """Возвращает все перестановки элементов массива A.
+    https://overcoder.net/q/872045/python-рекурсивные-перестановки
+    """
+    if len(A) <= 1:
+        return [A]
+    result = []  # результирующий массив
+    for a in A:
+        sub_a = [s for s in A if s != a]
+        c = permutations_generation(sub_a)  # перестановка подмассива для текущего символа
+        for n in c:
+            result.append([a] + n)
+    return result
+
+print("Перестановки рекурсией:")
+X = permutations_generation(['aa', 'b', 'c'])
+print(X)
+X = permutations_generation([1, 2, 3])
+print(X)
+X = permutations_generation([2])
+print(X)
+X = permutations_generation([])
+print(X)
