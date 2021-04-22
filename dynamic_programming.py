@@ -163,3 +163,25 @@ def test_lcsubstring():
     print(longest_common_substring(A, B))
 
 test_lcsubstring()
+
+
+def longest_increasing_subsequence_length(A):
+    """Возвращает длину наибольшей возрастающей подпоследовательности из списка А.
+    """
+    F = [0] * (len(A) + 1)
+    Max = 0
+    for i in range(1, len(A) + 1):
+        max = 0
+        for j in range(0, i):
+            if A[i - 1] > A[j - 1] and F[j] > max:
+                max = F[j]
+        F[i] = max + 1
+        if F[i] > Max:
+            Max = F[i]
+    return Max
+
+def test_l_i_s_l():
+    A = [1, 2, 4, 5, 4, 2]
+    print(longest_increasing_subsequence_length(A))
+
+test_l_i_s_l()
