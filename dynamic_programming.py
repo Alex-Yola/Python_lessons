@@ -70,3 +70,96 @@ def test_track_counter(x, y):
         print(K[n])
 
 test_track_counter(3, 3)
+
+
+def longest_common_subsequence_length(A, B):
+    """Возвращает длину F наибольшей общей подпоследовательности списков А и B.
+    """
+
+    def max(a, b):
+        return a if a > b else b
+
+    F = [[0] * (len(B) + 1) for n in range(len(A) + 1)]
+    for i in range(1, len(A) + 1):
+        for j in range(1, len(B) + 1):
+            F[i][j] = (1 + F[i - 1][j - 1]) if A[i - 1] == B[j - 1] else max(F[i][j - 1], F[i - 1][j])
+    return F[-1][-1]
+
+def test_lcsl():
+    A = [3, 2, 2, 4, 4, 1]
+    B = [7, 6, 4, 2, 4, 5, 1]
+    print(longest_common_subsequence_length(A, B))
+
+test_lcsl()
+
+
+def longest_common_subsequence(A, B):
+    """Возвращает наибольшую общую подпоследовательность списков А и B.
+    """
+    def max(a,b):
+        return a if a > b else b
+    C =[]
+    F = [[0]*(len(B)+1) for n in range(len(A)+1)]
+    for i in range(1, len(A)+1):
+        for j in range(1, len(B)+1):
+            if A[i-1] == B[j-1]:
+                F[i][j] = 1 + F[i-1][j-1]
+            else:
+                F[i][j] = max(F[i][j-1],F[i-1][j])
+    for n in range(1, len(A)+1):
+        if F[n][-1] != 0 and F[n][-1] > F[n-1][-1]:
+            C.append(A[n-1])
+    return C
+
+def test_lcs():
+    A = [3, 2, 2, 4, 4, 1]
+    B = [7, 6, 4, 2, 4, 5, 1]
+    C = longest_common_subsequence(A, B)
+    print(C)
+
+test_lcs()
+
+
+def longest_common_substring_length(A, B):
+    """Возвращает длину F наибольшей общей подстроки списков А и B.
+    """
+    F = [[0]*(len(B)+1) for n in range(len(A)+1)]
+    Fmax = -1
+    for i in range(1, len(A)+1):
+        for j in range(1, len(B)+1):
+            F[i][j] = (1 + F[i-1][j-1]) if A[i-1] == B[j-1] else 0
+            if Fmax < F[i][j]:
+                Fmax = F[i][j]
+    return Fmax
+
+def test_lcsubstring_length():
+    A = [3, 2, 2, 4, 4, 1]
+    B = [7, 6, 4, 2, 4, 4, 0]
+    print(longest_common_substring_length(A, B))
+
+test_lcsubstring_length()
+
+
+def longest_common_substring(A, B):
+    """Возвращает наибольшую общую подстроку списков А и B.
+    """
+    F = [[0]*(len(B)+1) for n in range(len(A)+1)]
+    Fmax = -1
+    u = 0
+    s = []
+    for i in range(1, len(A)+1):
+        for j in range(1, len(B)+1):
+            F[i][j] = (1 + F[i-1][j-1]) if A[i-1] == B[j-1] else 0
+            if Fmax < F[i][j]:
+                Fmax = F[i][j]
+                u = i
+    for n in range(Fmax):
+        s.append(A[u - Fmax + n])
+    return s
+
+def test_lcsubstring():
+    A = [3, 2, 2, 4, 4, 0]
+    B = [7, 6, 3, 2, 4, 4, 1]
+    print(longest_common_substring(A, B))
+
+test_lcsubstring()
