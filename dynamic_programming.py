@@ -185,3 +185,34 @@ def test_l_i_s_l():
     print(longest_increasing_subsequence_length(A))
 
 test_l_i_s_l()
+
+
+def levenstain_distance(A, B):
+    """Возвращает редакционное расстояние (Левенштейна) между строками А и В.
+    """
+    D = [[(i + j if i * j == 0 else 0) for j in range(len(B) + 1)] for i in range(len(A) + 1)]
+    for i in range(1, len(A) + 1):
+        for j in range(1, len(B) + 1):
+            if A[i - 1] == B[j - 1]:
+                D[i][j] = D[i - 1][j - 1]
+            else:
+                D[i][j] = 1 + min_3(D[i - 1][j], D[i][j - 1], D[i - 1][j - 1])
+    return D[len(A)][len(B)]
+
+def min_3(a, b, c):
+    min = a if a < b else b
+    if min < c:
+        return min
+    else:
+        return c
+
+def test_levenstain_distance():
+    A = list('молоко')
+    B = list('колокол')
+    print(A)
+    print(B)
+    print("D(A,B) =", levenstain_distance(A, B))
+    print("D(B,A) =", levenstain_distance(B, A))
+
+
+test_levenstain_distance()
