@@ -229,3 +229,38 @@ A1 = [5, 1, 6, 3, 4, 2]
 print(sort_bubble(A1, 0))
 print(sort_bubble(A1))
 
+
+def comparing_arrays(A, B):
+    """Возвращает True при равенстве списков А и В, иначе - Folse.
+    """
+    if A != B:
+        return False
+    for i in range(len(A)):
+        if A[i] != B[i]:
+            return False
+    return True
+
+def test_comparing_arrays():
+    A = ['a', 2, 4, 3]
+    B = [1, 2, 4, 3]
+    print(A, '=', B, ':', comparing_arrays(A, B))
+    A[0] = 1
+    print(A, '=', B, ':', comparing_arrays(A, B))
+    B.pop()
+    print(A, '=', B, ':', comparing_arrays(A, B))
+
+test_comparing_arrays()
+
+
+def substring_search(s, sub):
+    """Возвращает индекс начала первой подстроки в строке, при отсутствии - None.
+    """
+    for i in range(len(s) - len(sub) + 1):
+        if comparing_arrays(s[i:(i + len(sub))], sub):
+            return i
+
+print(substring_search([1, 2, 4, 3, 1, 2, 4, 3], [1, 2, 4, 3]))
+print(substring_search([1, 2, 4, 3], [2, 4, 3]))
+print(substring_search([1, 2, 4, 3], [4, 3]))
+print(substring_search([1, 2, 4, 3], [3]))
+print(substring_search([1, 2, 4, 3], [9]))
