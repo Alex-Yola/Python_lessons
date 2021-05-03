@@ -264,3 +264,85 @@ print(substring_search([1, 2, 4, 3], [2, 4, 3]))
 print(substring_search([1, 2, 4, 3], [4, 3]))
 print(substring_search([1, 2, 4, 3], [3]))
 print(substring_search([1, 2, 4, 3], [9]))
+
+
+def KMP_prefix(s):
+    """Возвращает массив префикс-функций символов строки s.
+    Исполюьзуется для поиска подстроки в строке методом Кнута-Морриса-Пратта.
+    """
+    pi = [0] * (len(s))
+    j = 0
+    for i in range(1, len(s)):
+        while s[i] != s[j] and j != 0:
+            j = pi[j - 1]
+        if s[i] == s[j]:
+            pi[i] = j + 1
+            j += 1
+    return pi
+
+def test_KMP_prefix():
+    s = "aabaabaaaabaabaaab"
+    p = [0, 1, 0, 1, 2, 3, 4, 5, 2, 2, 3, 4, 5, 6, 7, 8, 9, 3]
+    pi = KMP_prefix(s)
+    if comparing_arrays(p, pi):
+        print("OK KMP_prefix()")
+    else:
+        print("Error KMP_prefix()")
+
+test_KMP_prefix()
+
+
+def max_prefix(s):
+    """Возвращает максимальный префикс, равный суффиксу строки s,
+    его длину pi[k] и конечный индекс суффикса k.
+    """
+    pi = KMP_prefix(s)
+    max = pi[0]
+    k = 0
+    for i in range(1, len(pi)):
+        if max < pi[i]:
+            max = pi[i]
+            k = i
+    return s[: pi[k]], pi[k], k
+
+def test_max_prefix():
+    s = "aabaabaaaabaabaaab"
+    sub_s_max = "aabaabaaa"
+    A = max_prefix(s)
+    print(A)
+    if comparing_arrays(sub_s_max, A[0]):
+        print("OK max_prefix(s)")
+    else:
+        print("Error max_prefix(s)")
+
+test_max_prefix()
+
+
+def KMP(pattern, t):
+    """Ищет образец pattern в строке t методом Кнута-Морриса-Пратта.
+    Возвращает смещение первого найденного образца в строке, или "-1" при отсутствии образца в строке.
+    """
+    pi = KMP_prefix(pattern)
+    i = 0
+    j = 0
+    while i < len(t):
+        if t[i] == pattern[j]:
+            i += 1
+            j += 1
+            if j == len(pattern):
+                return i - len(pattern)
+        else:  # t[i] != pattern[j]
+            if j == 0:
+                i += 1
+                if i == len(t):
+                    return -1
+            else:  # j!=0
+                j = pi[j - 1]
+
+def test_KMP():
+    if KMP("aabaabaaa", "aabaabaaaabaabaaab") == 0 and KMP("aabaabaaa", "cabaabaaaabaabaaab") == 8:
+        print("OK KMP(p,t)")
+    else:
+        print("Error KMP(p,t)")
+
+test_KMP()
