@@ -28,4 +28,4 @@ def test_Stack():
     print("s.size():", s.size())
     print("s.isEmpty():", s.isEmpty())
 
-test_Stack()
+# test_Stack()
