@@ -59,3 +59,25 @@ def test_checking_braces():
     print(checking_braces("__(_[(-(_))]_))__"))
 
 test_checking_braces()
+
+
+def Reverse_Polish_notation(s):
+    """Вычисляет выражение, заданное обратной польской нотацией.
+    Например: [2,3,4,"*","-"] <=> 2-3*4=-10 , [2,3,"+",4,"*"] <=> (2+3)*4=20
+    """
+    stk = Stack()
+    for a in s:
+        if type(a) is not str:
+            stk.push(a)
+        else:  ## символ операции
+            x2 = stk.pop()
+            x1 = stk.pop()
+            z = eval(str(x1) + a + str(x2))
+            stk.push(z)
+    return stk.pop()
+
+def test_Reverse_Polish_notation():
+    print('[2,3,4,"*","-"] <=> 2-3*4 =', Reverse_Polish_notation([2,3,4,"*","-"]))
+    print('[2,3,"+",4,"*"] <=> (2+3)*4 =', Reverse_Polish_notation([2,3,"+",4,"*"]))
+
+test_Reverse_Polish_notation()
