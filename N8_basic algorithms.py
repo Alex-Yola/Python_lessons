@@ -346,3 +346,68 @@ def test_KMP():
         print("Error KMP(p,t)")
 
 test_KMP()
+
+
+# Полный перебор вариантов сообщения из n символов из алфавита A мощностью n.
+def one_transposition(A, n: int, k: int):
+    """Возвращаеn k-й вариант сообщения из n символов, составленных из алфавита А.
+    """
+    s = []
+    if k == 0:
+        s.append(A[0])
+    while k > 0:
+        s.append(A[k % len(A)])
+        k //= len(A)
+    for i in range(len(s) // 2):
+        s[i], s[len(s) - 1 - i] = s[len(s) - 1 - i], s[i]
+    return s
+
+def full_transposition(A, n: int):
+    """Печатает все варианты сообщения из n символов из алфавита А.
+    """
+    for k in range(len(A) ** n):
+        print(one_transposition(A, n, k))
+
+def test_full_transposition():
+    A = "012"
+    full_transposition(A, 3)
+
+test_full_transposition()
+
+
+# Задача о рюкзаке
+def Rukzak_pereborom(v, m, ogr_m):
+    """Возвращает кортеж:
+    1) бинарный код - что укладывать в рюкзак для достижения максимальной
+    суммарной стоимости при ограничении ogr_m на суммарный вес,
+    2) найденная стоимость собранного рюкзака,
+    3) вес собранного рюкзака.
+    v - массив цен элементов, m - массив весов элементов.
+    """
+    maxSV = 0
+    maxSM = 0
+    k = 0
+    for i in range(2 ** len(v)):
+        sum_v = 0
+        sum_m = 0
+        s = str(bin(i))
+        for j in range(2, len(s)):
+            sum_m += int(s[j]) * m[j - 2]  # j-2 - так как первые два символа бинарного формата числа "0b".
+            if sum_m > ogr_m:
+                break
+            else:
+                sum_v += int(s[j]) * v[j - 2]
+        if sum_v > maxSV:
+            maxSV = sum_v
+            maxSM = sum_m
+            k = i
+    return bin(k), maxSM, maxSV
+
+def test_Rukzak_pereborom():
+    cost = [100, 500, 200, 250]
+    weight = [1, 2, 4, 3]
+    print(Rukzak_pereborom(cost, weight, 6))
+
+test_Rukzak_pereborom()
+
+
