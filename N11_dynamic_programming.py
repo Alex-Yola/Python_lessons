@@ -215,4 +215,3 @@ def test_levenstain_distance():
     print("D(B,A) =", levenstain_distance(B, A))
 
 test_levenstain_distance()
-
